@@ -1,0 +1,138 @@
+<div class="flex searchField">
+    <button mat-raised-button (click)="salir()">
+        <mat-icon>arrow_back_ios</mat-icon> Salir
+    </button>
+    <div>
+        <mat-form-field appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input matInput (keyup)="applyFilterN($event, 'nombre')" placeholder="ex. Juan" #inputNom>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Login</mat-label>
+            <input matInput (keyup)="applyFilterN($event, 'login')" placeholder="ex. user" #inputLog>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Fecha alta</mat-label>
+            <input matInput (keyup)="applyFilterN($event, 'fechaAlta')" placeholder="ex. dd/mm/yyyy" #inputFec>
+        </mat-form-field>
+    </div>
+</div>
+<div class="flex searchField" style="justify-content: end; margin-bottom: 5px;">
+    <div name="favoriteColor" aria-label="Favorite Color">
+        <a mat-flat-button href="tablero" target="_self" style="text-decoration: none; margin-right: 20px;"><mat-icon>refresh</mat-icon>Limpiar filtro</a>
+        <button mat-flat-button value="Activos" color="primary" (click)="filtrar('A')">Activo</button>
+        <button mat-flat-button value="Inactivos" (click)="filtrar('B')">Inactivo</button>
+        <button mat-flat-button value="Revocados" color="accent" (click)="filtrar('R')">Revocado</button>
+    </div>
+</div>
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="Nombre">
+        <th mat-header-cell *matHeaderCellDef> Nombre </th>
+        <td mat-cell *matCellDef="let element"> {{element.Nombre}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Login">
+        <th mat-header-cell *matHeaderCellDef> Login </th>
+        <td mat-cell *matCellDef="let element"> {{element.Login}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="FechaAlta">
+        <th mat-header-cell *matHeaderCellDef> FechaAlta </th>
+        <td mat-cell *matCellDef="let element"> {{element.FechaAlta}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="estatus">
+        <th mat-header-cell *matHeaderCellDef> estatus </th>
+        <td mat-cell *matCellDef="let element"> {{element.estatus}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="accion">
+        <th mat-header-cell *matHeaderCellDef> accion </th>
+        <td mat-cell *matCellDef="let element">
+            <button mat-button color="accent" (click)="openDialog(element.Login)" [disabled]="(element.estatus == 'R' || element.estatus == 'Revocado') || (element.estatus == 'B' || element.estatus == 'Inactivo')">Editar</button>
+            <button mat-button color="accent" (click)="dialogEliminar(element.Login)"  [disabled]="element.estatus == 'B' || element.estatus == 'Inactivo'">Baja</button>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="rowD(row)"></tr>
+
+    <!-- Row shown when there is no matching data. -->
+    <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="5">No data matching the filter "{{inputNom.value}}"</td>
+    </tr>
+</table>
+
+<div class="dialog" *ngIf="show">
+    <mat-card>
+        <form [formGroup]="formEdit" (ngSubmit)="editar()">
+            <p>
+                <mat-form-field>
+                    <mat-label>Nombre(s)</mat-label>
+                    <input matInput placeholder="Ex. ium" #input1 formControlName="nombre">
+                </mat-form-field>
+            </p>
+            <p>
+                <mat-form-field>
+                    <mat-label>Apellido Paterno</mat-label>
+                    <input matInput placeholder="Ex. ium" #input5 formControlName="apat">
+                </mat-form-field>
+            </p>
+            <p>
+                <mat-form-field>
+                    <mat-label>Apellido Materno</mat-label>
+                    <input matInput placeholder="Ex. ium" #input6 formControlName="amat">
+                </mat-form-field>
+            </p>
+            <p>
+                <mat-form-field>
+                    <mat-label>Login</mat-label>
+                    <input matInput placeholder="Ex. ium" #input2 formControlName="login">
+                </mat-form-field>
+            </p>
+            <p>
+                <mat-form-field>
+                    <mat-label>FechaAlta</mat-label>
+                    <input matInput placeholder="Ex. ium" #input3 formControlName="fechaAlta">
+                </mat-form-field>
+            </p>
+            <p>
+                <mat-form-field>
+                    <mat-label>estatus</mat-label>
+                    <input matInput placeholder="Ex. ium" #input4 formControlName="estatus">
+                </mat-form-field>
+            </p>
+            <div class="button">
+                <button (click)="cancelar()" mat-button>Cancelar</button>
+                <button type="submit" mat-button>Confirmar</button>
+            </div>
+        </form>
+    </mat-card>
+</div>
+
+<div class="dialog" *ngIf="showde">
+    <mat-card>
+        <form [formGroup]="formDel" (ngSubmit)="eliminar()">
+            <div>
+                <mat-form-field style="visibility: hidden; width: 0; height: 0;">
+                    <mat-label>Nombre</mat-label>
+                    <input matInput placeholder="Ex. ium" #input6 formControlName="id">
+                </mat-form-field>
+                <p class="tittle">Seguro de quere eliminar a </p>
+                <p class="marker">{{input6.value}}</p>
+            </div>
+
+            <div class="button">
+                <button (click)="cancelar()" mat-button>No</button>
+                <button type="submit" mat-button color="accent">Si</button>
+            </div>
+        </form>
+    </mat-card>
+</div>
+
+
+<div class="overall" *ngIf="showSpinner">
+    <mat-spinner></mat-spinner>
+</div>

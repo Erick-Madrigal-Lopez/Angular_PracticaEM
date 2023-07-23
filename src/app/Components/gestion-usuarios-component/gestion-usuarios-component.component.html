@@ -1,0 +1,100 @@
+<button mat-raised-button (click)="salir()">
+    <mat-icon>arrow_back_ios</mat-icon> Salir
+</button>
+<form [formGroup]="formulario" (ngSubmit)="submit()">
+    <p>
+        <mat-form-field>
+            <mat-label>Login*</mat-label>
+            <input matInput placeholder="Ex. ium" formControlName="login">
+            <mat-error>*Campo requerido</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Password*</mat-label>
+            <input matInput placeholder="Ex. ium" formControlName="password" [type]="hide? 'password' : 'text'">
+            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <mat-error>*Campo requerido</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Estatus*</mat-label>
+            <input matInput placeholder="Ex. ium" formControlName="estatus">
+            <mat-error>*Campo requerido</mat-error>
+        </mat-form-field>
+    </p>
+    <p>
+        <mat-form-field>
+            <mat-label>Nombre(s)*</mat-label>
+            <input matInput placeholder="Ex. ium" formControlName="nombre">
+            <mat-error>*Campo requerido</mat-error>
+        </mat-form-field>
+    
+        <mat-form-field>
+            <mat-label>Apellido Paterno</mat-label>
+            <input matInput placeholder="Ex. ium" formControlName="apat">
+        </mat-form-field>
+    
+        <mat-form-field>
+            <mat-label>Apellido Materno</mat-label>
+            <input matInput placeholder="Ex. ium" formControlName="amat">
+        </mat-form-field>
+    </p>
+    <p>
+        <mat-form-field>
+            <mat-label>Cliente*</mat-label>
+            <input matInput placeholder="Ex. ium" formControlName="cliente">
+            <mat-error>*Campo requerido</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput placeholder="Ex. ium" formControlName="email">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Intentos*</mat-label>
+            <input matInput placeholder="Ex. ium" formControlName="intentos">
+            <mat-error>*Campo requerido</mat-error>
+        </mat-form-field>
+    </p>
+    <p>
+        <mat-form-field>
+            <mat-label>Fecha Alta*</mat-label>
+            <input matInput placeholder="Ex. ium" formControlName="fechaAlta">
+            <mat-error>*Campo requerido</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Fecha Baja</mat-label>
+            <input matInput placeholder="Ex. ium" formControlName="fechaBaja">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>No. Acceso</mat-label>
+            <input matInput placeholder="Ex. ium" formControlName="noAcceso">
+        </mat-form-field>
+    </p>
+    <p>
+        <mat-form-field>
+            <mat-label>Fecha Revocado</mat-label>
+            <input matInput placeholder="Ex. ium" formControlName="fechaRevocado">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Fecha Vigencia</mat-label>
+            <input matInput placeholder="Ex. ium" formControlName="fechaVigencia">
+        </mat-form-field>
+    </p>
+    <p>
+        <mat-form-field>
+            <mat-label>Area</mat-label>
+            <input matInput placeholder="Ex. ium" formControlName="area">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Fecha Modificacion*</mat-label>
+            <input matInput placeholder="Ex. ium" formControlName="fechaModificacion">
+            <mat-error>*Campo requerido</mat-error>
+        </mat-form-field>
+    </p>
+    
+    <p class="button">
+        <button type="submit" mat-raised-button><mat-icon>done</mat-icon>Confirmar</button>
+    </p>
+</form>
+
+<div class="overall" *ngIf="showSpinner">
+    <mat-spinner></mat-spinner>
+</div>
